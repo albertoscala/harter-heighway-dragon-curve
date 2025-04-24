@@ -2,6 +2,8 @@
 
 In this project I used Rust to generate the Harter Heighway Dragon Curve using a simple iterative method based on rotating and appending direction vectors.
 
+![showcase](showcase.gif)
+
 ## How It Works
 
 The method used to build is the: Iterated Geometric Folding (Rotation + Reflection Method)
