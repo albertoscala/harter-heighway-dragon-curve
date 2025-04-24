@@ -34,10 +34,10 @@ const ITERS: usize = 20;
 ```
 
 ## File Overview
-- main $\rightarrow$ main loop and variable initializations
-- generate_directions $\rightarrow$ builds the list of direction vectors one steps at time
-- generate_coord $\rightarrow$ builds the list of coordinates from the vectors one step at time
-- draw $\rightarrow$ draws the pixels in the window buffer
+- `main` $\rightarrow$ main loop and variable initializations
+- `generate_directions` $\rightarrow$ builds the list of direction vectors one steps at time
+- `generate_coord` $\rightarrow$ builds the list of coordinates from the vectors one step at time
+- `draw` $\rightarrow$ draws the pixels in the window buffer
 
 ## License
 
