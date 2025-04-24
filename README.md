@@ -41,5 +41,5 @@ const ITERS: usize = 20;
 
 ## License
 
-[MIT](LICENSE.md)
+[MIT](https://choosealicense.com/licenses/mit/)
 
