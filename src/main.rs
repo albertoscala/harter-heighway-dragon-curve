@@ -7,6 +7,9 @@ use minifb::{Window, WindowOptions};
 const WIDTH: usize = 1300;
 const HEIGHT: usize = 800;
 
+// Number of iterations
+const ITERS: usize = 20;
+
 fn generate_directions(directions: &mut Vec<(i32, i32)>) {
     let mut reversed = directions.clone();
     reversed.reverse();
@@ -71,7 +74,7 @@ fn main() {
         panic!("Some error occured: {e}");
     });
 
-    for _ in 0..20 {
+    for _ in 0..ITERS {
         // Generate next step
         generate_directions(&mut directions);
         generate_coord(&mut coordinates, &directions[directions.len()/2..]);
