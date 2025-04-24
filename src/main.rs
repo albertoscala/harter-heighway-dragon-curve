@@ -1,9 +1,10 @@
 use core::time;
 use std::thread::sleep;
 
-use minifb::{Key, Window, WindowOptions};
+use minifb::{Window, WindowOptions};
 
-const WIDTH: usize = 800;
+// Sizes for the window
+const WIDTH: usize = 1300;
 const HEIGHT: usize = 800;
 
 fn generate_directions(directions: &mut Vec<(i32, i32)>) {
@@ -13,17 +14,21 @@ fn generate_directions(directions: &mut Vec<(i32, i32)>) {
     directions.extend(reversed);
 }
 
-fn generate_coord(coords: &mut Vec<(i32, i32)>, directions: &Vec<(i32, i32)>) {
-    coords.clear(); // start fresh each time (or remove if you want to grow)
-    let mut pos = (0, 0);
-    coords.push(pos);
+// "Optimized"
+fn generate_coord(coords: &mut Vec<(i32, i32)>, directions: &[(i32, i32)]) {
+    let (mut dx, mut dy) = match coords.len() {
+        size if size == 0 => (0, 0),
+        _ => (coords[coords.len()-1].0, coords[coords.len()-1].1)
+    };
 
-    for (dx, dy) in directions {
-        pos = (pos.0 + dx, pos.1 + dy);
-        coords.push(pos);
+    for i in 0..directions.len() {
+        dx += directions[i].0;
+        dy += directions[i].1;
+        coords.push((dx, dy));
     }
 }
 
+// TODO: Optimize drawing
 fn draw(buffer: &mut Vec<u32>, coords: &Vec<(i32, i32)>) {
     for y in 0..HEIGHT {
         for x in 0..WIDTH {
@@ -57,7 +62,7 @@ fn main() {
     let mut buffer: Vec<u32> = vec![0; WIDTH * HEIGHT];
 
     let mut window = Window::new(
-        "Fractals",
+        "Harter-Heighway Dragon Curve",
         WIDTH,
         HEIGHT,
         WindowOptions::default(),
@@ -66,20 +71,24 @@ fn main() {
         panic!("Some error occured: {e}");
     });
 
-    for _ in 0..20 {           
+    for _ in 0..20 {
+        // Generate next step
         generate_directions(&mut directions);
-        generate_coord(&mut coordinates, &directions);
+        generate_coord(&mut coordinates, &directions[directions.len()/2..]);
         
+        // Draw changes
         draw(&mut buffer, &coordinates);
 
-        // Update the window with the buffer content
+        // Update window
         window
-        .update_with_buffer(&buffer, WIDTH, HEIGHT)
-        .unwrap();
+            .update_with_buffer(&buffer, WIDTH, HEIGHT)
+            .unwrap();
 
+        // Pause
         sleep(time::Duration::from_millis(100));
     }
 
+    // Enjoy it for 5s
     sleep(time::Duration::from_secs(5));
     
 }
